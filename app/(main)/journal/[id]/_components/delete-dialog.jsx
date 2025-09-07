@@ -15,10 +15,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { deleteJournalEntry } from "@/actions/journal";
+import { useApiClient } from "@/lib/api-client";
 import useFetch from "@/hooks/use-fetch";
 
 export default function DeleteDialog({ entryId }) {
+  const apiClient = useApiClient();
   const router = useRouter();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -26,7 +27,7 @@ export default function DeleteDialog({ entryId }) {
     loading: isDeleting,
     fn: deleteEntryFn,
     data: deletedEntry,
-  } = useFetch(deleteJournalEntry);
+  } = useFetch((id) => apiClient.deleteEntry(id));
 
   useEffect(() => {
     if (deletedEntry && !isDeleting) {

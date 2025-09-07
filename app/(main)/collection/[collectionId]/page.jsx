@@ -1,13 +1,44 @@
-import { getJournalEntries } from "@/actions/journal";
-import { getCollections } from "@/actions/collection";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useApiClient } from "@/lib/api-client";
 import { JournalFilters } from "./_components/journal-filters";
 import DeleteCollectionDialog from "./_components/delete-collection";
 
-export default async function CollectionPage({ params }) {
-  const { collectionId } = await params;
-  const entries = await getJournalEntries({ collectionId });
-  const collections =
-    collectionId !== "unorganized" ? await getCollections() : null;
+export default function CollectionPage() {
+  const apiClient = useApiClient();
+  const { collectionId } = useParams();
+  const [entries, setEntries] = useState(null);
+  const [collections, setCollections] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const entriesData = await apiClient.getCollectionEntries(collectionId);
+        setEntries(entriesData.data || entriesData);
+        
+        if (collectionId !== "unorganized") {
+          const collectionsData = await apiClient.getCollections();
+          setCollections(collectionsData.data || collectionsData);
+        }
+      } catch (error) {
+        console.error("Error fetching collection data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [collectionId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Handle case where data might be undefined or have different structure
+  const entriesArray = entries?.data?.entries || entries?.entries || entries || [];
   const collection = collections?.find((c) => c.id === collectionId);
 
   return (
@@ -22,7 +53,7 @@ export default async function CollectionPage({ params }) {
           {collection && (
             <DeleteCollectionDialog
               collection={collection}
-              entriesCount={entries.data.entries.length}
+              entriesCount={entriesArray.length}
             />
           )}
         </div>
@@ -32,7 +63,7 @@ export default async function CollectionPage({ params }) {
       </div>
 
       {/* Client-side Filters Component */}
-      <JournalFilters entries={entries.data.entries} />
+      <JournalFilters entries={entriesArray} />
     </div>
   );
 }

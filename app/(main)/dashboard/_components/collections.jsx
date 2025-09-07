@@ -1,20 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { createCollection } from "@/actions/collection";
+import { useApiClient } from "@/lib/api-client";
 import { toast } from "sonner";
 import CollectionPreview from "./collection-preview";
 import CollectionForm from "@/components/collection-form";
 import useFetch from "@/hooks/use-fetch";
 
 const Collections = ({ collections = [], entriesByCollection }) => {
+  const apiClient = useApiClient();
   const [isCollectionDialogOpen, setIsCollectionDialogOpen] = useState(false);
 
   const {
     loading: createCollectionLoading,
     fn: createCollectionFn,
     data: createdCollection,
-  } = useFetch(createCollection);
+  } = useFetch((data) => apiClient.createCollection(data));
 
   useEffect(() => {
     if (createdCollection) {

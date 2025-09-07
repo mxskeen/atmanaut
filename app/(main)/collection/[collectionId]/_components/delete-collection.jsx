@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { deleteCollection } from "@/actions/collection";
+import { useApiClient } from "@/lib/api-client";
 import useFetch from "@/hooks/use-fetch";
 import { useEffect } from "react";
 
@@ -22,6 +22,7 @@ export default function DeleteCollectionDialog({
   collection,
   entriesCount = 0,
 }) {
+  const apiClient = useApiClient();
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
@@ -29,7 +30,7 @@ export default function DeleteCollectionDialog({
     loading: isDeleting,
     fn: deleteCollectionFn,
     data: deletedCollection,
-  } = useFetch(deleteCollection);
+  } = useFetch((id) => apiClient.deleteCollection(id));
 
   useEffect(() => {
     if (deletedCollection && !isDeleting) {

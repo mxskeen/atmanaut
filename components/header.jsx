@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -5,17 +7,14 @@ import { PenBox, FolderOpen } from "lucide-react";
 import Image from "next/image";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import UserMenu from "./user-menu";
-import { checkUser } from "@/lib/checkUser";
 
-async function Header() {
-  await checkUser();
-
+function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full">
       <nav className="py-2 px-4 flex justify-between items-center backdrop-blur-sm bg-atmanaut-dark/95 border-b border-atmanaut-olive/20 shadow-glow container mx-auto">
         <Link href="/" className="flex items-center">
           <Image
-            src={"/logo.png"}
+            src={"/logo (1).jpg"}
             alt="atmanaut Logo"
             width={280}
             height={90}

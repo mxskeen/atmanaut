@@ -12,10 +12,10 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { getAnalytics } from "@/actions/analytics";
-import { getMoodById, getMoodTrend } from "@/app/lib/moods";
+import { getMoodById, getMoodTrend } from "@/shared/moods";
 import { format, parseISO } from "date-fns";
 import useFetch from "@/hooks/use-fetch";
+import { useApiClient } from "@/lib/api-client";
 import MoodAnalyticsSkeleton from "./analytics-loading";
 import { useUser } from "@clerk/nextjs";
 import {
@@ -34,13 +34,14 @@ const timeOptions = [
 ];
 
 const MoodAnalytics = () => {
+  const apiClient = useApiClient();
   const [period, setPeriod] = useState("7d");
 
   const {
     loading,
     data: analytics,
     fn: fetchAnalytics,
-  } = useFetch(getAnalytics);
+  } = useFetch(() => apiClient.getAnalytics());
 
   const { isLoaded } = useUser();
 

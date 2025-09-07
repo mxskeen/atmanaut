@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/popover";
 import { format, isSameDay } from "date-fns";
 import { Calendar as CalendarIcon, Search } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { MOODS } from "@/app/lib/moods";
+import { cn } from "@/shared/utils";
+import { MOODS } from "@/shared/moods";
 import EntryCard from "@/components/entry-card";
 
 export function JournalFilters({ entries }) {

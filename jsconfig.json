@@ -1,7 +1,23 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/shared/*": ["./shared/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/data/*": ["./data/*"]
     }
-  }
+  },
+  "include": [
+    "app/**/*",
+    "components/**/*", 
+    "shared/**/*",
+    "hooks/**/*",
+    "lib/**/*",
+    "data/**/*",
+    "middleware.js",
+    "next.config.mjs"
+  ]
 }

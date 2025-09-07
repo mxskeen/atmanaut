@@ -17,24 +17,18 @@ import {
 import useFetch from "@/hooks/use-fetch";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  createJournalEntry,
-  updateJournalEntry,
-  getJournalEntry,
-  getDraft,
-  saveDraft,
-} from "@/actions/journal";
-import { createCollection, getCollections } from "@/actions/collection";
-import { getMoodById, MOODS } from "@/app/lib/moods";
+import { useApiClient } from "@/lib/api-client";
+import { getMoodById, MOODS } from "@/shared/moods";
 import { BarLoader } from "react-spinners";
 import { toast } from "sonner";
-import { journalSchema } from "@/app/lib/schemas";
+import { journalSchema } from "@/shared/schemas";
 import "react-quill-new/dist/quill.snow.css";
 import CollectionForm from "@/components/collection-form";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 export default function JournalEntryPage() {
+  const apiClient = useApiClient();
   const router = useRouter();
   const searchParams = useSearchParams();
   const editId = searchParams.get("edit");
@@ -44,35 +38,42 @@ export default function JournalEntryPage() {
   // Fetch Hooks
   const {
     loading: collectionsLoading,
-    data: collections,
+    data: collectionsResponse,
     fn: fetchCollections,
-  } = useFetch(getCollections);
+  } = useFetch(() => apiClient.getCollections());
+
+  const collections = collectionsResponse?.data || collectionsResponse || [];
 
   const {
     loading: entryLoading,
-    data: existingEntry,
+    data: existingEntryResponse,
     fn: fetchEntry,
-  } = useFetch(getJournalEntry);
+  } = useFetch((id) => apiClient.getEntry(id));
+
+  const existingEntry = existingEntryResponse?.data || existingEntryResponse;
 
   const {
     loading: draftLoading,
     data: draftData,
     fn: fetchDraft,
-  } = useFetch(getDraft);
+  } = useFetch(() => apiClient.getDraft());
 
-  const { loading: savingDraft, fn: saveDraftFn } = useFetch(saveDraft);
+  const { loading: savingDraft, fn: saveDraftFn } = useFetch((data) => apiClient.saveDraft(data));
 
   const {
     loading: actionLoading,
     fn: actionFn,
     data: actionResult,
-  } = useFetch(isEditMode ? updateJournalEntry : createJournalEntry);
+  } = useFetch(isEditMode ? 
+    (data) => apiClient.updateEntry(editId, data) : 
+    (data) => apiClient.createEntry(data)
+  );
 
   const {
     loading: createCollectionLoading,
     fn: createCollectionFn,
     data: createdCollection,
-  } = useFetch(createCollection);
+  } = useFetch((data) => apiClient.createCollection(data));
 
   const {
     register,

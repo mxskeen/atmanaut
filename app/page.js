@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import {
   Book,
   Sparkles,
@@ -23,7 +25,7 @@ import TestimonialCarousel from "@/components/testimonial-carousel";
 import ZenBreathingGuide from "@/components/zen-breathing-guide";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { getDailyPrompt } from "@/actions/public";
+import { apiClient } from "@/lib/api-client";
 import faqs from "@/data/faqs";
 
 const features = [
@@ -47,8 +49,24 @@ const features = [
   },
 ];
 
-export default async function LandingPage() {
-  const advice = await getDailyPrompt();
+export default function LandingPage() {
+  const [advice, setAdvice] = useState(null);
+  const [loadingAdvice, setLoadingAdvice] = useState(true);
+
+  useEffect(() => {
+    const fetchAdvice = async () => {
+      try {
+        const dailyPrompt = await apiClient.getDailyPrompt();
+        setAdvice(dailyPrompt.data || dailyPrompt); // Extract data field or use the response directly
+      } catch (error) {
+        console.error("Error fetching daily prompt:", error);
+      } finally {
+        setLoadingAdvice(false);
+      }
+    };
+
+    fetchAdvice();
+  }, []);
 
   return (
     <div
