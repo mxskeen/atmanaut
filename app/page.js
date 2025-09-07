@@ -51,7 +51,10 @@ export default async function LandingPage() {
   const advice = await getDailyPrompt();
 
   return (
-    <div className="relative container mx-auto px-4 pt-16 pb-16">
+    <div
+      suppressHydrationWarning
+      className="relative container mx-auto px-4 pt-16 pb-16"
+    >
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto text-center space-y-8">
         <h1 className="text-5xl md:text-7xl lg:text-8xl gradient-title mb-6 animate-zen-fade-in">
