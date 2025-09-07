@@ -2,9 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  Book,
-  Sparkles,
-  Lock,
   Calendar,
   ChevronRight,
   BarChart2,
@@ -51,7 +48,6 @@ const features = [
 
 export default function LandingPage() {
   const [advice, setAdvice] = useState(null);
-  const [loadingAdvice, setLoadingAdvice] = useState(true);
 
   useEffect(() => {
     const fetchAdvice = async () => {
@@ -76,7 +72,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto text-center space-y-8">
         <h1 className="text-5xl md:text-7xl lg:text-8xl gradient-title mb-6 animate-zen-fade-in">
-          Your Sacred Space to Reflect. <br /> Your Soul's Story to Tell.
+          Your Sacred Space to Reflect. <br /> Your Soul&apos;s Story to Tell.
         </h1>
         <p className="text-lg md:text-xl text-atmanaut-cream/90 mb-8">
           Capture your thoughts, track your moods, and reflect on your journey

@@ -40,8 +40,8 @@ async def create_journal_entry(
                 detail="Invalid mood"
             )
 
-        # Get mood image from Pixabay
-        mood_image_url = await ExternalAPIService.get_pixabay_image(entry_data.moodQuery)
+        # Pixabay integration removed
+        mood_image_url = None
 
         # Validate collection if provided
         collection_id = None
@@ -73,7 +73,6 @@ async def create_journal_entry(
         draft_service.delete_draft(user["id"])
 
         return entry
-
     except HTTPException:
         raise
     except Exception as e:
@@ -302,11 +301,7 @@ async def update_journal_entry(
                     detail="Invalid mood"
                 )
             
-            # Get new mood image if mood changed or moodQuery provided
-            if entry["mood"] != mood["id"] or entry_data.moodQuery:
-                mood_query = entry_data.moodQuery or mood["pixabay_query"]
-                mood_image_url = await ExternalAPIService.get_pixabay_image(mood_query)
-                update_data["mood_image_url"] = mood_image_url
+            # Pixabay integration removed
             
             update_data["mood"] = mood["id"]
             update_data["mood_score"] = mood["score"]

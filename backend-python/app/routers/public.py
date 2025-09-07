@@ -24,21 +24,3 @@ async def get_daily_prompt(request: Request):
         }
 
 
-@router.get("/pixabay-image")
-@limiter.limit("50/hour")
-async def get_pixabay_image(request: Request, query: str):
-    """
-    Get image from Pixabay API
-    """
-    try:
-        image_url = await ExternalAPIService.get_pixabay_image(query)
-        return {
-            "success": True,
-            "data": image_url
-        }
-    except Exception as e:
-        return {
-            "success": False,
-            "data": None,
-            "error": str(e)
-        }

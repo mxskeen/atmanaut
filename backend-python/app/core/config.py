@@ -14,8 +14,6 @@ class Settings(BaseSettings):
     clerk_secret_key: str = Field(..., env="CLERK_SECRET_KEY")
     clerk_publishable_key: str = Field(..., env="CLERK_PUBLISHABLE_KEY")
     
-    # External APIs
-    pixabay_api_key: str = Field(..., env="PIXABAY_API_KEY")
     
     # CORS
     allowed_origins: list[str] = Field(

@@ -14,7 +14,7 @@ function Header() {
       <nav className="py-2 px-4 flex justify-between items-center backdrop-blur-sm bg-atmanaut-dark/95 border-b border-atmanaut-olive/20 shadow-glow container mx-auto">
         <Link href="/" className="flex items-center">
           <Image
-            src={"/logo (1).jpg"}
+            src={"/logo.png"}
             alt="atmanaut Logo"
             width={280}
             height={90}
