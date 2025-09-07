@@ -75,7 +75,7 @@ class EntryCreate(BaseModel):
     title: str
     content: str
     mood: str
-    moodQuery: str  # For fetching Pixabay image - matches frontend camelCase
+    moodQuery: Optional[str] = None  # For fetching Pixabay image - matches frontend camelCase
     collectionId: Optional[str] = None  # Matches frontend camelCase
 
 
