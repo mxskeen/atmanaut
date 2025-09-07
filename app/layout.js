@@ -1,4 +1,5 @@
 import Header from "@/components/header";
+import FloatingParticles from "@/components/floating-particles";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -33,15 +34,24 @@ export default function RootLayout({ children }) {
     >
       <html lang="en">
         <body
-          className={`${inter.className} bg-gradient-to-b from-orange-50 via-amber-50 to-orange-50`}
+          suppressHydrationWarning={true}
+          className={`${inter.className} zen-gradient text-atmanaut-cream`}
         >
-          <div className="inset-0 bg-[url('/bg.jpg')] opacity-50 fixed -z-10" />
+          <FloatingParticles />
           <Header />
-          <main className="min-h-screen">{children}</main>
+          <main
+            suppressHydrationWarning={true}
+            className="min-h-screen pt-14 relative z-10"
+          >
+            {children}
+          </main>
           <Toaster richColors />
 
-          <footer className="bg-orange-300 py-12 bg-opacity-10">
-            <div className="container mx-auto px-4 text-center text-gray-900">
+          <footer className="bg-atmanaut-olive/20 py-12 backdrop-blur-sm">
+            <div className="container mx-auto px-4 text-center text-atmanaut-cream">
+              <p className="text-sm opacity-70">
+                © 2025 Project Atmanaut - a voyager of the soul
+              </p>
             </div>
           </footer>
         </body>

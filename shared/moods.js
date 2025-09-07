@@ -6,7 +6,7 @@ export const MOODS = {
     score: 10,
     color: "yellow",
     prompt: "What wonderful things happened today?",
-    pixabayQuery: "joyful+celebration+happy",
+    // pixabayQuery removed
   },
   ACCOMPLISHED: {
     id: "accomplished",
@@ -15,7 +15,7 @@ export const MOODS = {
     score: 9,
     color: "amber",
     prompt: "What have you achieved?",
-    pixabayQuery: "achievement+success+star",
+    // pixabayQuery removed
   },
   INSPIRED: {
     id: "inspired",
@@ -24,7 +24,7 @@ export const MOODS = {
     score: 9,
     color: "violet",
     prompt: "What's sparking your creativity?",
-    pixabayQuery: "inspiration+creative+light",
+    // pixabayQuery removed
   },
   PROUD: {
     id: "proud",
@@ -33,7 +33,7 @@ export const MOODS = {
     score: 9,
     color: "amber",
     prompt: "What achievement are you proud of?",
-    pixabayQuery: "achievement+success+proud",
+    // pixabayQuery removed
   },
   LOVED: {
     id: "loved",
@@ -42,7 +42,7 @@ export const MOODS = {
     score: 9,
     color: "pink",
     prompt: "Who or what is making you feel loved?",
-    pixabayQuery: "love+heart+affection",
+    // pixabayQuery removed
   },
   APPRECIATED: {
     id: "appreciated",
@@ -51,7 +51,7 @@ export const MOODS = {
     score: 8,
     color: "rose",
     prompt: "Who showed you appreciation?",
-    pixabayQuery: "appreciation+gratitude+heart",
+    // pixabayQuery removed
   },
   MOTIVATED: {
     id: "motivated",
@@ -60,7 +60,7 @@ export const MOODS = {
     score: 8,
     color: "emerald",
     prompt: "What's driving you forward?",
-    pixabayQuery: "motivation+target+goal",
+    // pixabayQuery removed
   },
   HAPPY: {
     id: "happy",
@@ -69,7 +69,7 @@ export const MOODS = {
     score: 8,
     color: "amber",
     prompt: "What's making you smile today?",
-    pixabayQuery: "happy+smile+sunshine",
+    // pixabayQuery removed
   },
   EXCITED: {
     id: "excited",
@@ -78,7 +78,7 @@ export const MOODS = {
     score: 8,
     color: "orange",
     prompt: "What are you looking forward to?",
-    pixabayQuery: "excited+energetic+celebration",
+    // pixabayQuery removed
   },
   CONFIDENT: {
     id: "confident",
@@ -87,7 +87,7 @@ export const MOODS = {
     score: 8,
     color: "emerald",
     prompt: "What's boosting your confidence?",
-    pixabayQuery: "confident+strong+power",
+    // pixabayQuery removed
   },
   GRATEFUL: {
     id: "grateful",
@@ -96,7 +96,7 @@ export const MOODS = {
     score: 8,
     color: "green",
     prompt: "What are you thankful for today?",
-    pixabayQuery: "grateful+thankful+blessing",
+    // pixabayQuery removed
   },
   CONNECTED: {
     id: "connected",
@@ -105,7 +105,7 @@ export const MOODS = {
     score: 8,
     color: "indigo",
     prompt: "Who made you feel connected today?",
-    pixabayQuery: "connection+together+community",
+    // pixabayQuery removed
   },
   PEACEFUL: {
     id: "peaceful",
@@ -114,7 +114,7 @@ export const MOODS = {
     score: 7,
     color: "blue",
     prompt: "What's bringing you peace?",
-    pixabayQuery: "peaceful+calm+serene",
+    // pixabayQuery removed
   },
   HOPEFUL: {
     id: "hopeful",
@@ -123,7 +123,7 @@ export const MOODS = {
     score: 7,
     color: "green",
     prompt: "What gives you hope?",
-    pixabayQuery: "hope+growth+spring",
+    // pixabayQuery removed
   },
   CREATIVE: {
     id: "creative",
@@ -132,7 +132,7 @@ export const MOODS = {
     score: 7,
     color: "violet",
     prompt: "What's inspiring your creativity?",
-    pixabayQuery: "creative+art+inspiration",
+    // pixabayQuery removed
   },
   THOUGHTFUL: {
     id: "thoughtful",
@@ -141,7 +141,7 @@ export const MOODS = {
     score: 6,
     color: "slate",
     prompt: "What's on your mind?",
-    pixabayQuery: "thinking+contemplation+reflection",
+    // pixabayQuery removed
   },
   CURIOUS: {
     id: "curious",
@@ -150,7 +150,7 @@ export const MOODS = {
     score: 6,
     color: "teal",
     prompt: "What's caught your interest?",
-    pixabayQuery: "curious+discovery+explore",
+    // pixabayQuery removed
   },
   NOSTALGIC: {
     id: "nostalgic",
@@ -159,7 +159,7 @@ export const MOODS = {
     score: 5,
     color: "fuchsia",
     prompt: "What memories are you thinking about?",
-    pixabayQuery: "nostalgia+memories+sunset",
+    // pixabayQuery removed
   },
   NEUTRAL: {
     id: "neutral",
@@ -168,7 +168,7 @@ export const MOODS = {
     score: 5,
     color: "gray",
     prompt: "How has your day been?",
-    pixabayQuery: "neutral+balance+calm",
+    // pixabayQuery removed
   },
   RESTLESS: {
     id: "restless",
@@ -177,7 +177,7 @@ export const MOODS = {
     score: 4,
     color: "blue",
     prompt: "What's making you feel unsettled?",
-    pixabayQuery: "restless+waves+motion",
+    // pixabayQuery removed
   },
   TIRED: {
     id: "tired",
@@ -186,7 +186,7 @@ export const MOODS = {
     score: 4,
     color: "purple",
     prompt: "What's draining your energy?",
-    pixabayQuery: "tired+sleep+rest",
+    // pixabayQuery removed
   },
   OVERWHELMED: {
     id: "overwhelmed",
@@ -195,7 +195,7 @@ export const MOODS = {
     score: 3,
     color: "sky",
     prompt: "What's feeling like too much?",
-    pixabayQuery: "overwhelmed+chaos+storm",
+    // pixabayQuery removed
   },
   ANXIOUS: {
     id: "anxious",
@@ -204,7 +204,7 @@ export const MOODS = {
     score: 3,
     color: "indigo",
     prompt: "What's causing your anxiety?",
-    pixabayQuery: "worry+stress+anxiety",
+    // pixabayQuery removed
   },
   DISAPPOINTED: {
     id: "disappointed",
@@ -213,7 +213,7 @@ export const MOODS = {
     score: 3,
     color: "stone",
     prompt: "What didn't go as expected?",
-    pixabayQuery: "disappointment+rain+grey",
+    // pixabayQuery removed
   },
   FRUSTRATED: {
     id: "frustrated",
@@ -222,7 +222,7 @@ export const MOODS = {
     score: 3,
     color: "orange",
     prompt: "What's blocking your progress?",
-    pixabayQuery: "frustrated+blocked+obstacle",
+    // pixabayQuery removed
   },
   STRESSED: {
     id: "stressed",
@@ -231,7 +231,7 @@ export const MOODS = {
     score: 3,
     color: "rose",
     prompt: "What's pressuring you?",
-    pixabayQuery: "stress+pressure+overwhelmed",
+    // pixabayQuery removed
   },
   INSECURE: {
     id: "insecure",
@@ -240,7 +240,7 @@ export const MOODS = {
     score: 2,
     color: "lime",
     prompt: "What's making you doubt yourself?",
-    pixabayQuery: "insecure+doubt+shadow",
+    // pixabayQuery removed
   },
   SAD: {
     id: "sad",
@@ -249,7 +249,7 @@ export const MOODS = {
     score: 2,
     color: "cyan",
     prompt: "What's bringing you down?",
-    pixabayQuery: "sad+melancholy+rain",
+    // pixabayQuery removed
   },
   LONELY: {
     id: "lonely",
@@ -258,7 +258,7 @@ export const MOODS = {
     score: 2,
     color: "zinc",
     prompt: "How could you connect with others?",
-    pixabayQuery: "lonely+solitude+night",
+    // pixabayQuery removed
   },
   ANGRY: {
     id: "angry",
@@ -267,7 +267,7 @@ export const MOODS = {
     score: 1,
     color: "red",
     prompt: "What's frustrating you?",
-    pixabayQuery: "angry+storm+thunder",
+    // pixabayQuery removed
   },
 };
 

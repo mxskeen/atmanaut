@@ -7,7 +7,7 @@ Smart AI-powered journaling app with mood tracking & analytics.
 - Frontend: Next.js + React + TypeScript
 - DB: PostgreSQL (Supabase)
 - Auth: Clerk JWT
-- External APIs: Pixabay (mood images), AdviceSlip (daily prompts)
+- External APIs: AdviceSlip (daily prompts)
 
 ## Core Features
 Users:
@@ -20,7 +20,6 @@ Users:
 System:
 - JWT authentication with Clerk
 - Rate limiting & security
-- Mood-based image generation
 - Real-time analytics
 - Responsive design
 

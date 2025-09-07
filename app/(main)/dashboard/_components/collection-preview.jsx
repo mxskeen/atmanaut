@@ -7,16 +7,16 @@ import { getMoodById } from "@/shared/moods";
 
 const colorSchemes = {
   unorganized: {
-    bg: "bg-amber-100 hover:bg-amber-50",
-    tab: "bg-amber-200 group-hover:bg-amber-300",
+    bg: "gradient-card hover:bg-atmanaut-cream/50 shadow-glow",
+    tab: "bg-atmanaut-olive group-hover:bg-atmanaut-dark-olive",
   },
   collection: {
-    bg: "bg-blue-100 hover:bg-blue-50",
-    tab: "bg-blue-200 group-hover:bg-blue-300",
+    bg: "gradient-card hover:bg-atmanaut-cream/50 shadow-glow",
+    tab: "bg-atmanaut-yellow group-hover:bg-atmanaut-cream",
   },
   createCollection: {
-    bg: "bg-gray-200 hover:bg-gray-100",
-    tab: "bg-gray-100 hover:bg-gray-50",
+    bg: "bg-atmanaut-olive/20 hover:bg-atmanaut-olive/30 shadow-glow",
+    tab: "bg-atmanaut-olive/40 hover:bg-atmanaut-olive/60",
   },
 };
 
@@ -27,7 +27,7 @@ const FolderTab = ({ colorClass }) => (
 );
 
 const EntryPreview = ({ entry }) => (
-  <div className="bg-white/50 p-2 rounded text-sm truncate">
+  <div className="bg-white/70 backdrop-blur-sm p-2 rounded-lg text-sm truncate text-atmanaut-dark border border-atmanaut-cream/30">
     <span className="mr-2">{getMoodById(entry.mood)?.emoji}</span>
     {entry.title}
   </div>
@@ -49,12 +49,14 @@ const CollectionPreview = ({
       >
         <FolderTab colorClass={colorSchemes["createCollection"].bg} />
         <div
-          className={`relative h-full rounded-lg p-6 shadow-md hover:shadow-lg transition-all flex flex-col items-center justify-center gap-4 ${colorSchemes["createCollection"].tab}`}
+          className={`relative h-full rounded-lg p-6 shadow-md hover:shadow-lg transition-all apple-hover animate-zen-fade-in flex flex-col items-center justify-center gap-4 ${colorSchemes["createCollection"].tab}`}
         >
-          <div className="h-12 w-12 rounded-full bg-gray-200 group-hover:bg-gray-300 flex items-center justify-center">
-            <Plus className="h-6 w-6 text-gray-600" />
+          <div className="h-12 w-12 rounded-full bg-atmanaut-yellow/80 group-hover:bg-atmanaut-yellow flex items-center justify-center shadow-glow animate-float">
+            <Plus className="h-6 w-6 text-atmanaut-dark" />
           </div>
-          <p className="text-gray-600 font-medium">Create New Collection</p>
+          <p className="text-atmanaut-dark font-medium">
+            Create New Collection
+          </p>
         </div>
       </button>
     );
@@ -71,16 +73,18 @@ const CollectionPreview = ({
         }
       />
       <div
-        className={`relative rounded-lg p-6 shadow-md hover:shadow-lg transition-all ${
+        className={`relative rounded-lg p-6 shadow-md hover:shadow-lg transition-all apple-hover animate-zen-fade-in ${
           colorSchemes[isUnorganized ? "unorganized" : "collection"].bg
         }`}
       >
         <div className="flex items-center gap-3 mb-4">
           <span className="text-2xl">{isUnorganized ? "📂" : "📁"}</span>
-          <h3 className="text-lg font-semibold truncate">{name}</h3>
+          <h3 className="text-lg font-semibold truncate text-atmanaut-dark">
+            {name}
+          </h3>
         </div>
         <div className="space-y-2">
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-atmanaut-dark/70">
             <span>{entries.length} entries</span>
             {entries.length > 0 && (
               <span>
@@ -96,7 +100,9 @@ const CollectionPreview = ({
                 .slice(0, 2)
                 .map((entry) => <EntryPreview key={entry.id} entry={entry} />)
             ) : (
-              <p className="text-sm text-gray-500 italic">No entries yet</p>
+              <p className="text-sm text-atmanaut-dark/50 italic">
+                No entries yet
+              </p>
             )}
           </div>
         </div>
