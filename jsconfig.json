@@ -4,10 +4,8 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["./components/*"],
-      "@/backend/*": ["./backend/*"],
       "@/shared/*": ["./shared/*"],
-      "@/actions/*": ["./backend/actions/*"],
-      "@/lib/*": ["./backend/lib/*"],
+      "@/lib/*": ["./lib/*"],
       "@/hooks/*": ["./hooks/*"],
       "@/data/*": ["./data/*"]
     }
@@ -15,9 +13,9 @@
   "include": [
     "app/**/*",
     "components/**/*", 
-    "backend/**/*",
     "shared/**/*",
     "hooks/**/*",
+    "lib/**/*",
     "data/**/*",
     "middleware.js",
     "next.config.mjs"

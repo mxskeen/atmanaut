@@ -1,15 +1,45 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import DeleteDialog from "./_components/delete-dialog";
 import EditButton from "./_components/edit-button";
-import { getMoodById } from "@/app/lib/moods";
-import { getJournalEntry } from "@/actions/journal";
+import { getMoodById } from "@/shared/moods";
+import { useApiClient } from "@/lib/api-client";
 
-export default async function JournalEntryPage({ params }) {
-  const { id } = await params;
-  const entry = await getJournalEntry(id);
+export default function JournalEntryPage() {
+  const apiClient = useApiClient();
+  const { id } = useParams();
+  const [entry, setEntry] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEntry = async () => {
+      try {
+        const entryData = await apiClient.getEntry(id);
+        setEntry(entryData.data || entryData);
+      } catch (error) {
+        console.error("Error fetching entry:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEntry();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!entry) {
+    return <div>Entry not found</div>;
+  }
+
   const mood = getMoodById(entry.mood);
 
   return (

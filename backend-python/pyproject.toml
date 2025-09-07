@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "atmanaut-backend"
+version = "0.1.0"
+description = "FastAPI backend for Atmanaut journaling app"
+authors = ["Atmanaut"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.116.1"
+uvicorn = "^0.35.0"
+pydantic-settings = "^2.10.1"
+httpx = "^0.28.1"
+python-jose = {extras = ["cryptography"], version = "^3.5.0"}
+python-multipart = "^0.0.20"
+slowapi = "^0.1.9"
+supabase = "^2.18.1"
+pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+pytest-asyncio = "^1.1.0"
+httpx = "^0.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

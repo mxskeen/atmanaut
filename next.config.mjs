@@ -24,9 +24,7 @@ const nextConfig = {
       '@': path.resolve('.'),
       '@/components': path.resolve('./components'),
       '@/shared': path.resolve('./shared'),
-      '@/backend': path.resolve('./backend'),
-      '@/actions': path.resolve('./backend/actions'),
-      '@/lib': path.resolve('./backend/lib'),
+      '@/lib': path.resolve('./lib'),
       '@/hooks': path.resolve('./hooks'),
       '@/data': path.resolve('./data'),
     };
