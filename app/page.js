@@ -48,6 +48,7 @@ const features = [
 
 export default function LandingPage() {
   const [advice, setAdvice] = useState(null);
+  const [loadingAdvice, setLoadingAdvice] = useState(true);
 
   useEffect(() => {
     const fetchAdvice = async () => {

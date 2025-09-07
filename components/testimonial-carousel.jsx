@@ -14,7 +14,7 @@ import testimonials from "@/data/testimonials";
 
 const TestimonialCarousel = () => {
   return (
-    <div className="mt-24">
+    <div suppressHydrationWarning={true} className="mt-24">
       <h2 className="text-3xl font-bold text-center text-atmanaut-cream mb-12">
         What Our Writers Say
       </h2>
@@ -33,7 +33,7 @@ const TestimonialCarousel = () => {
                 <CardContent className="p-6">
                   <blockquote className="space-y-4">
                     <p className="text-atmanaut-cream/90 italic">
-                      &quot;{testimonial.text}&quot;
+                      {`"${testimonial.text}"`}
                     </p>
                     <footer>
                       <div className="font-semibold text-atmanaut-yellow">

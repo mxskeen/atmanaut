@@ -70,14 +70,20 @@ const ZenBreathingGuide = () => {
   };
 
   return (
-    <div className="cosmic-card p-8 rounded-2xl text-center animate-zen-fade-in relative overflow-hidden">
+    <div
+      suppressHydrationWarning={true}
+      className="cosmic-card p-8 rounded-2xl text-center animate-zen-fade-in relative overflow-hidden"
+    >
       {/* Audio element */}
       <audio ref={audioRef} loop>
         <source src="/cosmiczen.mp3" type="audio/mpeg" />
       </audio>
 
       {/* Cosmic background elements */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
+      <div
+        suppressHydrationWarning={true}
+        className="absolute inset-0 opacity-20 pointer-events-none"
+      >
         <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-atmanaut-yellow rounded-full animate-flicker"></div>
         <div
           className="absolute top-1/3 right-1/3 w-1 h-1 bg-atmanaut-cream rounded-full animate-flicker"

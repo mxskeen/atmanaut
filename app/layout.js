@@ -33,10 +33,18 @@ export default function RootLayout({ children }) {
     // }}
     >
       <html lang="en">
-        <body className={`${inter.className} zen-gradient text-atmanaut-cream`}>
+        <body
+          suppressHydrationWarning={true}
+          className={`${inter.className} zen-gradient text-atmanaut-cream`}
+        >
           <FloatingParticles />
           <Header />
-          <main className="min-h-screen pt-14 relative z-10">{children}</main>
+          <main
+            suppressHydrationWarning={true}
+            className="min-h-screen pt-14 relative z-10"
+          >
+            {children}
+          </main>
           <Toaster richColors />
 
           <footer className="bg-atmanaut-olive/20 py-12 backdrop-blur-sm">

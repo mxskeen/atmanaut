@@ -1,5 +1,5 @@
 // next.config.js
-import path from 'path';
+import path from "path";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -21,14 +21,14 @@ const nextConfig = {
     // Add aliases for easier imports
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': path.resolve('.'),
-      '@/components': path.resolve('./components'),
-      '@/shared': path.resolve('./shared'),
-      '@/lib': path.resolve('./lib'),
-      '@/hooks': path.resolve('./hooks'),
-      '@/data': path.resolve('./data'),
+      "@": path.resolve("."),
+      "@/components": path.resolve("./components"),
+      "@/shared": path.resolve("./shared"),
+      "@/lib": path.resolve("./lib"),
+      "@/hooks": path.resolve("./hooks"),
+      "@/data": path.resolve("./data"),
     };
-    
+
     return config;
   },
 };

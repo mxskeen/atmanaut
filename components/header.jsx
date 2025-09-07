@@ -10,8 +10,14 @@ import UserMenu from "./user-menu";
 
 function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full">
-      <nav className="py-2 px-4 flex justify-between items-center backdrop-blur-sm bg-atmanaut-dark/95 border-b border-atmanaut-olive/20 shadow-glow container mx-auto">
+    <header
+      suppressHydrationWarning={true}
+      className="fixed top-0 left-0 right-0 z-50 w-full"
+    >
+      <nav
+        suppressHydrationWarning={true}
+        className="py-2 px-4 flex justify-between items-center backdrop-blur-sm bg-atmanaut-dark/95 border-b border-atmanaut-olive/20 shadow-glow container mx-auto"
+      >
         <Link href="/" className="flex items-center">
           <Image
             src={"/logo.png"}
@@ -21,7 +27,10 @@ function Header() {
             className="h-10 w-auto object-contain"
           />
         </Link>
-        <div className="flex items-center gap-4">
+        <div
+          suppressHydrationWarning={true}
+          className="flex items-center gap-4"
+        >
           <SignedIn>
             <Link href="/dashboard#collections">
               <Button
