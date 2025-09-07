@@ -12,12 +12,13 @@
   },
   "include": [
     "app/**/*",
-    "components/**/*", 
+    "components/**/*",
     "shared/**/*",
     "hooks/**/*",
     "lib/**/*",
     "data/**/*",
     "middleware.js",
     "next.config.mjs"
-  ]
+  ],
+  "exclude": ["node_modules", ".next"]
 }
