@@ -1,7 +1,7 @@
 "use server";
 
-import aj from "@/lib/arcjet";
-import { db } from "@/lib/prisma";
+import aj from "../lib/arcjet.js";
+import { db } from "../lib/prisma.js";
 import { request } from "@arcjet/next";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";

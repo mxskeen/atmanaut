@@ -15,7 +15,7 @@ async function Header() {
       <nav className="py-6 px-4 flex justify-between items-center">
         <Link href="/">
           <Image
-            src={"/logo.png"}
+            src={"/logo (1).jpg"}
             alt="atmanaut Logo"
             width={200}
             height={60}

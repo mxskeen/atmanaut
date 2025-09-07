@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/prisma";
+import { db } from "../lib/prisma.js";
 
 export async function getAnalytics(period = "30d") {
   const { userId } = await auth();

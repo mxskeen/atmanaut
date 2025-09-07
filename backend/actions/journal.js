@@ -1,11 +1,11 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { db } from "@/lib/prisma";
+import { db } from "../lib/prisma.js";
 import { revalidatePath } from "next/cache";
 import { getMoodById, MOODS } from "@/app/lib/moods";
 import { getPixabayImage } from "./public";
-import aj from "@/lib/arcjet";
+import aj from "../lib/arcjet.js";
 import { request } from "@arcjet/next";
 
 export async function createJournalEntry(data) {
