@@ -60,7 +60,7 @@ poetry run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 Frontend:
 ```bash
 cd /path/to/atmanaut
-npm install
+npm install --legacy-peer-deps
 npm run dev
 ```
 
