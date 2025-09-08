@@ -28,7 +28,7 @@ class UserService(SupabaseService):
             result = self.supabase.table("users").select("*").eq("clerk_user_id", clerk_user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error getting user by clerk ID: {e}")
+            # print(f"Error getting user by clerk ID: {e}")
             return None
     
     def get_user_by_id(self, user_id: str) -> Optional[Dict[str, Any]]:
@@ -37,7 +37,7 @@ class UserService(SupabaseService):
             result = self.supabase.table("users").select("*").eq("id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error getting user by ID: {e}")
+            # print(f"Error getting user by ID: {e}")
             return None
     
     def create_user(self, user_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -47,20 +47,20 @@ class UserService(SupabaseService):
             user_data["created_at"] = datetime.now().isoformat()
             user_data["updated_at"] = datetime.now().isoformat()
             
-            print(f"Debug - create_user called with data: {user_data}")
-            
+            # print(f"Debug - create_user called with data: {user_data}")
+
             # Ensure email is not None
             if not user_data.get("email"):
                 clerk_user_id = user_data.get("clerk_user_id", "unknown")
                 user_data["email"] = f"{clerk_user_id}@clerk.placeholder"
-                print(f"Debug - No email provided, setting placeholder: {user_data['email']}")
-            
-            print(f"Debug - Final user_data before insert: {user_data}")
+                # print(f"Debug - No email provided, setting placeholder: {user_data['email']}")
+
+            # print(f"Debug - Final user_data before insert: {user_data}")
             
             result = self.supabase.table("users").insert(user_data).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error creating user: {e}")
+            # print(f"Error creating user: {e}")
             raise Exception(f"Failed to create user: {str(e)}")
     
     def get_or_create_user(self, clerk_user_id: str, user_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -88,7 +88,7 @@ class CollectionService(SupabaseService):
             result = self.supabase.table("collections").select("*").eq("user_id", user_id).order("created_at", desc=True).execute()
             return result.data or []
         except Exception as e:
-            print(f"Error getting collections: {e}")
+            # print(f"Error getting collections: {e}")
             return []
     
     def create_collection(self, user_id: str, collection_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -106,7 +106,7 @@ class CollectionService(SupabaseService):
             result = self.supabase.table("collections").insert(data).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error creating collection: {e}")
+            # print(f"Error creating collection: {e}")
             raise Exception(f"Failed to create collection: {str(e)}")
     
     def update_collection(self, collection_id: str, user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -117,7 +117,7 @@ class CollectionService(SupabaseService):
             result = self.supabase.table("collections").update(update_data).eq("id", collection_id).eq("user_id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error updating collection: {e}")
+            # print(f"Error updating collection: {e}")
             raise Exception(f"Failed to update collection: {str(e)}")
     
     def delete_collection(self, collection_id: str, user_id: str) -> bool:
@@ -126,7 +126,7 @@ class CollectionService(SupabaseService):
             result = self.supabase.table("collections").delete().eq("id", collection_id).eq("user_id", user_id).execute()
             return True
         except Exception as e:
-            print(f"Error deleting collection: {e}")
+            # print(f"Error deleting collection: {e}")
             raise Exception(f"Failed to delete collection: {str(e)}")
     
     def get_collection(self, collection_id: str, user_id: str) -> Optional[Dict[str, Any]]:
@@ -135,11 +135,74 @@ class CollectionService(SupabaseService):
             result = self.supabase.table("collections").select("*").eq("id", collection_id).eq("user_id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error getting collection: {e}")
+            # print(f"Error getting collection: {e}")
             return None
 
 
 class EntryService(SupabaseService):
+    def create_future_entry(self, user_id: str, entry_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new future journal entry"""
+        try:
+            data = {
+                "id": self.generate_id(),
+                "user_id": user_id,
+                "title": entry_data["title"],
+                "content": entry_data["content"],
+                "mood": entry_data["mood"],
+                "mood_score": entry_data["mood_score"],
+                "mood_image_url": entry_data.get("mood_image_url"),
+                "collection_id": entry_data.get("collection_id"),
+                "send_to_future_date": entry_data.get("send_to_future_date"),
+                "is_future_entry": True,
+                "created_at": datetime.now().isoformat(),
+                "updated_at": datetime.now().isoformat()
+            }
+            result = self.supabase.table("entries").insert(data).execute()
+            return result.data[0] if result.data else None
+        except Exception as e:
+            # print(f"Error creating future entry: {e}")
+            raise Exception(f"Failed to create future entry: {str(e)}")
+
+    def get_due_future_entries(self, user_id: str) -> list:
+        """Get all future entries due today for a user and not yet delivered"""
+        try:
+            today = datetime.utcnow().date().isoformat()
+            result = self.supabase.table("entries") \
+                .select("*") \
+                .eq("user_id", user_id) \
+                .eq("is_future_entry", True) \
+                .is_("delivered_at", "null") \
+                .gte("send_to_future_date", today + "T00:00:00Z") \
+                .lte("send_to_future_date", today + "T23:59:59Z") \
+                .execute()
+            return result.data or []
+        except Exception as e:
+            return []
+
+    def mark_entry_delivered(self, entry_id: str, user_id: str) -> bool:
+        """Mark a future entry as delivered"""
+        try:
+            now = datetime.now().isoformat()
+            result = self.supabase.table("entries") \
+                .update({"delivered_at": now}) \
+                .eq("id", entry_id) \
+                .eq("user_id", user_id) \
+                .execute()
+            return True
+        except Exception as e:
+            return False
+
+    def update_future_date(self, entry_id: str, user_id: str, new_date: str) -> bool:
+        """Update the send_to_future_date for a future entry"""
+        try:
+            result = self.supabase.table("entries") \
+                .update({"send_to_future_date": new_date, "updated_at": datetime.now().isoformat()}) \
+                .eq("id", entry_id) \
+                .eq("user_id", user_id) \
+                .execute()
+            return True
+        except Exception as e:
+            return False
     """Service for journal entry operations"""
     
     def create_entry(self, user_id: str, entry_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -161,7 +224,6 @@ class EntryService(SupabaseService):
             result = self.supabase.table("entries").insert(data).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error creating entry: {e}")
             raise Exception(f"Failed to create entry: {str(e)}")
     
     def get_entries(self, user_id: str, collection_id: Optional[str] = None, order_by: str = "desc") -> List[Dict[str, Any]]:
@@ -182,7 +244,6 @@ class EntryService(SupabaseService):
             result = query.execute()
             return result.data or []
         except Exception as e:
-            print(f"Error getting entries: {e}")
             return []
     
     def get_entry(self, entry_id: str, user_id: str) -> Optional[Dict[str, Any]]:
@@ -191,7 +252,6 @@ class EntryService(SupabaseService):
             result = self.supabase.table("entries").select("*, collections(id, name)").eq("id", entry_id).eq("user_id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error getting entry: {e}")
             return None
     
     def update_entry(self, entry_id: str, user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -202,7 +262,6 @@ class EntryService(SupabaseService):
             result = self.supabase.table("entries").update(update_data).eq("id", entry_id).eq("user_id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error updating entry: {e}")
             raise Exception(f"Failed to update entry: {str(e)}")
     
     def delete_entry(self, entry_id: str, user_id: str) -> bool:
@@ -211,7 +270,6 @@ class EntryService(SupabaseService):
             result = self.supabase.table("entries").delete().eq("id", entry_id).eq("user_id", user_id).execute()
             return True
         except Exception as e:
-            print(f"Error deleting entry: {e}")
             raise Exception(f"Failed to delete entry: {str(e)}")
 
 
@@ -224,7 +282,6 @@ class DraftService(SupabaseService):
             result = self.supabase.table("drafts").select("*").eq("user_id", user_id).execute()
             return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error getting draft: {e}")
             return None
     
     def save_draft(self, user_id: str, draft_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -253,7 +310,6 @@ class DraftService(SupabaseService):
                 result = self.supabase.table("drafts").insert(data).execute()
                 return result.data[0] if result.data else None
         except Exception as e:
-            print(f"Error saving draft: {e}")
             raise Exception(f"Failed to save draft: {str(e)}")
     
     def delete_draft(self, user_id: str) -> bool:
@@ -262,5 +318,4 @@ class DraftService(SupabaseService):
             result = self.supabase.table("drafts").delete().eq("user_id", user_id).execute()
             return True
         except Exception as e:
-            print(f"Error deleting draft: {e}")
             return False

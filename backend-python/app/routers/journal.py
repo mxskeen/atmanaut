@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Request, Query
 from app.middleware import get_current_user, limiter
 from app.schemas import (
-    Entry as EntrySchema, EntryCreate, EntryUpdate, 
+    Entry as EntrySchema, EntryCreate, EntryUpdate,
     EntryListResponse, StandardResponse,
     Draft as DraftSchema, DraftCreate, DraftUpdate
 )
@@ -40,7 +40,7 @@ async def create_journal_entry(
                 detail="Invalid mood"
             )
 
-        # Pixabay integration removed
+
         mood_image_url = None
 
         # Validate collection if provided
@@ -66,8 +66,12 @@ async def create_journal_entry(
             "collection_id": collection_id
         }
 
-        entry = entry_service.create_entry(user["id"], entry_data_dict)
-        
+        if entry_data.sendToFutureDate:
+            entry_data_dict["send_to_future_date"] = entry_data.sendToFutureDate.isoformat()
+            entry = entry_service.create_future_entry(user["id"], entry_data_dict)
+        else:
+            entry = entry_service.create_entry(user["id"], entry_data_dict)
+
         # Delete existing draft after successful publication
         draft_service = DraftService()
         draft_service.delete_draft(user["id"])
@@ -161,7 +165,7 @@ async def get_collection_entries(
 
         # Handle special cases
         entry_service = EntryService()
-        
+
         if collection_id == "all":
             # Return all entries for the user
             entries = entry_service.get_entries(user["id"], None, order_by)
@@ -291,7 +295,7 @@ async def update_journal_entry(
 
         # Prepare update data
         update_data = entry_data.model_dump(exclude_unset=True)
-        
+
         # Handle mood update
         if "mood" in update_data:
             mood = get_mood_by_key(update_data["mood"])
@@ -300,12 +304,12 @@ async def update_journal_entry(
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Invalid mood"
                 )
-            
-            # Pixabay integration removed
-            
+
+
+
             update_data["mood"] = mood["id"]
             update_data["mood_score"] = mood["score"]
-        
+
         # Convert camelCase to snake_case for database
         if "moodQuery" in update_data:
             del update_data["moodQuery"]  # Remove as it's not a model field
@@ -437,4 +441,64 @@ async def save_draft(
         return StandardResponse(
             success=False,
             error=str(e)
+        )
+
+
+@router.get("/future-entries/today", response_model=EntryListResponse)
+@limiter.limit("30/minute")
+async def get_due_future_entries(
+    request: Request,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Get all future entries due today for the authenticated user
+    """
+    try:
+        user_service = UserService()
+        user = user_service.get_user_by_clerk_id(current_user["user_id"])
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        entry_service = EntryService()
+        entries = entry_service.get_due_future_entries(user["id"])
+        return EntryListResponse(success=True, data={"entries": entries})
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get due future entries: {str(e)}"
+        )
+
+
+@router.post("/future-entries/{entry_id}/delivered", response_model=StandardResponse)
+@limiter.limit("30/minute")
+async def mark_future_entry_delivered(
+    request: Request,
+    entry_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Mark a future entry as delivered for the authenticated user
+    """
+    try:
+        user_service = UserService()
+        user = user_service.get_user_by_clerk_id(current_user["user_id"])
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found"
+            )
+        entry_service = EntryService()
+        success = entry_service.mark_entry_delivered(entry_id, user["id"])
+        if not success:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Failed to mark entry as delivered"
+            )
+        return StandardResponse(success=True, data={"message": "Entry marked as delivered"})
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to mark entry as delivered: {str(e)}"
         )

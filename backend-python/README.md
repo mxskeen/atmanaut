@@ -9,7 +9,7 @@ A Python FastAPI backend for the Atmanaut journaling application, migrated from 
 - **Poetry** - Dependency management
 - **Clerk Authentication** - User authentication and management
 - **Rate Limiting** - API rate limiting with SlowAPI (in-memory)
-- **External APIs** - Integration with Pixabay and AdviceSlip APIs
+- **External APIs** - Integration with AdviceSlip API
 
 ## Setup
 
@@ -21,28 +21,33 @@ A Python FastAPI backend for the Atmanaut journaling application, migrated from 
 ### Installation
 
 1. Clone the repository and navigate to the backend directory:
+
 ```bash
 cd backend-python
 ```
 
 2. Install dependencies with Poetry:
+
 ```bash
 poetry install
 ```
 
 3. Copy environment file and configure:
+
 ```bash
 cp .env.example .env
 # Edit .env with your configuration
 ```
 
 4. Set up the database:
+
 ```bash
 # Run database setup script
 ./migrate.sh
 ```
 
 5. Start the development server:
+
 ```bash
 poetry run uvicorn app.main:app --reload
 ```
@@ -52,6 +57,7 @@ The API will be available at `http://localhost:8000`
 ## API Documentation
 
 FastAPI automatically generates interactive API documentation:
+
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
@@ -85,7 +91,7 @@ CLERK_SECRET_KEY=your_clerk_secret_key_here
 CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
 
 # External APIs
-PIXABAY_API_KEY=your_pixabay_api_key_here
+
 
 # CORS
 ALLOWED_ORIGINS=["http://localhost:3000"]
@@ -101,15 +107,18 @@ DEBUG=true
 ## API Endpoints
 
 ### Analytics
+
 - `GET /analytics/` - Get user analytics data
 
 ### Collections
+
 - `GET /collections/` - Get user collections
 - `POST /collections/` - Create new collection
 - `PUT /collections/{id}` - Update collection
 - `DELETE /collections/{id}` - Delete collection
 
 ### Journal Entries
+
 - `GET /journal/entries` - Get journal entries
 - `POST /journal/entries` - Create new entry
 - `GET /journal/entries/{id}` - Get specific entry
@@ -117,10 +126,12 @@ DEBUG=true
 - `DELETE /journal/entries/{id}` - Delete entry
 
 ### Drafts
+
 - `GET /journal/draft` - Get current draft
 - `POST /journal/draft` - Save draft
 
 ### Public
+
 - `GET /public/daily-prompt` - Get daily writing prompt
 - `GET /public/mood-image/{mood}` - Get mood-based image
 
@@ -135,6 +146,7 @@ Authorization: Bearer <your_jwt_token>
 ## Database Migrations
 
 To set up the database schema in Supabase:
+
 ```bash
 ./migrate.sh
 ```
@@ -144,11 +156,13 @@ This script will create the necessary tables in your Supabase database.
 ## Development
 
 ### Running Tests
+
 ```bash
 poetry run pytest
 ```
 
 ### Linting
+
 ```bash
 poetry run black .
 poetry run isort .

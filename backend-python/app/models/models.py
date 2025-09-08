@@ -39,6 +39,9 @@ CREATE TABLE entries (
     mood_image_url TEXT,
     collection_id TEXT REFERENCES collections(id) ON DELETE CASCADE,
     user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    send_to_future_date TIMESTAMP WITH TIME ZONE,
+    is_future_entry BOOLEAN DEFAULT FALSE,
+    delivered_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

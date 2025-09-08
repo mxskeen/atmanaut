@@ -79,7 +79,7 @@ export default function DeleteCollectionDialog({
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <Button
             onClick={handleDelete}
-            className="bg-red-500 hover:bg-red-600"
+            className="bg-atmanaut-dark-olive text-atmanaut-cream hover:bg-atmanaut-yellow hover:text-atmanaut-dark border border-atmanaut-yellow/40 transition-all duration-300"
             disabled={isDeleting}
           >
             {isDeleting ? "Deleting..." : "Delete Collection"}

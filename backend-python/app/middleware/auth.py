@@ -1,4 +1,5 @@
-import os
+
+impsingk
 import httpx
 from typing import Optional, Dict, Any
 from fastapi import HTTPException, status, Request
@@ -54,7 +55,7 @@ class ClerkAuth:
         try:
             # Decode JWT without verification first to get issuer
             unverified_payload = jwt.decode(token, options={"verify_signature": False})
-            print(f"JWT Payload: {unverified_payload}")
+            # print(f"JWT Payload: {unverified_payload}")
             
             issuer = unverified_payload.get('iss')
             if not issuer:
@@ -75,29 +76,30 @@ class ClerkAuth:
             # Validate authorized party (azp) for additional security
             azp = payload.get('azp')
             if azp and azp not in ['http://localhost:3000', 'http://127.0.0.1:3000']:
-                print(f"Warning: Token from unexpected authorized party: {azp}")
+                # print(f"Warning: Token from unexpected authorized party: {azp}")
+                pass
             
             user_id = payload.get('sub')
             if not user_id:
                 raise HTTPException(status_code=401, detail="Invalid token: no user ID")
             
             # Fetch full user profile from Clerk API
-            print(f"Fetching profile for user: {user_id}")
+            # print(f"Fetching profile for user: {user_id}")
             user_profile = await self.fetch_user_profile(user_id)
-            print(f"User profile fetched: {user_profile}")
+            # print(f"User profile fetched: {user_profile}")
             
             return user_profile
             
         except Exception as e:
-            print(f"Token validation error: {e}")
+            # print(f"Token validation error: {e}")
             raise HTTPException(status_code=401, detail="Invalid token")
     
     async def fetch_user_profile(self, user_id: str) -> Dict[str, Any]:
         """Fetch user profile from Clerk API"""
         try:
             clerk_secret = settings.clerk_secret_key
-            print(f"Fetching user profile for: {user_id}")
-            print(f"Clerk secret key available: {bool(clerk_secret)}")
+            # print(f"Fetching user profile for: {user_id}")
+            # print(f"Clerk secret key available: {bool(clerk_secret)}")
             
             async with httpx.AsyncClient() as client:
                 headers = {
@@ -107,20 +109,20 @@ class ClerkAuth:
                 
                 # Try the Clerk secret as Bearer token first, then as basic auth if needed
                 url = f"https://api.clerk.com/v1/users/{user_id}"
-                print(f"Making request to: {url}")
+                # print(f"Making request to: {url}")
                 
                 response = await client.get(url, headers=headers)
-                print(f"Clerk API response status: {response.status_code}")
+                # print(f"Clerk API response status: {response.status_code}")
                 
                 # If Bearer fails, try with the secret key directly
                 if response.status_code == 401:
                     headers["Authorization"] = clerk_secret
                     response = await client.get(url, headers=headers)
-                    print(f"Clerk API response status (retry): {response.status_code}")
+                    # print(f"Clerk API response status (retry): {response.status_code}")
                 
                 if response.status_code == 200:
                     profile = response.json()
-                    print(f"Clerk API response: {profile}")
+                    # print(f"Clerk API response: {profile}")
                     
                     email = None
                     if "email_addresses" in profile and profile["email_addresses"]:
@@ -132,14 +134,14 @@ class ClerkAuth:
                         "name": f"{profile.get('first_name', '')} {profile.get('last_name', '')}".strip(),
                         "image_url": profile.get("image_url")
                     }
-                    print(f"Extracted user data: {user_data}")
+                    # print(f"Extracted user data: {user_data}")
                     return user_data
                 else:
-                    print(f"Clerk API error: {response.status_code} - {response.text}")
+                    # print(f"Clerk API error: {response.status_code} - {response.text}")
                     return {"user_id": user_id, "email": f"user_{user_id[-8:]}@placeholder.com"}
                     
         except Exception as e:
-            print(f"Error fetching user profile: {e}")
+            # print(f"Error fetching user profile: {e}")
             return {"user_id": user_id, "email": f"user_{user_id[-8:]}@placeholder.com"}
 
 

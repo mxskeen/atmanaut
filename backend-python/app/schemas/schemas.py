@@ -3,7 +3,7 @@ Pydantic schemas for request/response models
 """
 from datetime import datetime
 from typing import Optional, List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 
 # Base schemas
@@ -27,7 +27,7 @@ class User(UserBase):
     clerk_user_id: str
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
 
@@ -52,7 +52,7 @@ class Collection(CollectionBase):
     user_id: str
     created_at: datetime
     updated_at: datetime
-    
+
     class Config:
         from_attributes = True
 
@@ -70,13 +70,24 @@ class EntryBase(BaseModel):
     mood_image_url: Optional[str] = None
     collection_id: Optional[str] = None
 
-
 class EntryCreate(BaseModel):
     title: str
     content: str
     mood: str
-    moodQuery: Optional[str] = None  # For fetching Pixabay image - matches frontend camelCase
+    moodQuery: Optional[str] = None
     collectionId: Optional[str] = None  # Matches frontend camelCase
+    sendToFutureDate: Optional[datetime] = None
+
+    @validator("sendToFutureDate")
+    def validate_send_to_future_date(cls, v):
+        if v:
+            now = datetime.utcnow()
+            max_date = now.replace(year=now.year + 1)
+            if v < now:
+                raise ValueError("Future date cannot be in the past")
+            if v > max_date:
+                raise ValueError("Future date must be within 1 year from now")
+        return v
 
 
 class EntryUpdate(BaseModel):
@@ -85,6 +96,18 @@ class EntryUpdate(BaseModel):
     mood: Optional[str] = None
     moodQuery: Optional[str] = None  # Matches frontend camelCase
     collectionId: Optional[str] = None  # Matches frontend camelCase
+    sendToFutureDate: Optional[datetime] = None
+
+    @validator("sendToFutureDate")
+    def validate_send_to_future_date(cls, v):
+        if v:
+            now = datetime.utcnow()
+            max_date = now.replace(year=now.year + 1)
+            if v < now:
+                raise ValueError("Future date cannot be in the past")
+            if v > max_date:
+                raise ValueError("Future date must be within 1 year from now")
+        return v
 
 
 class Entry(EntryBase):

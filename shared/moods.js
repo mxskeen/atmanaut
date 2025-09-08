@@ -6,7 +6,6 @@ export const MOODS = {
     score: 10,
     color: "yellow",
     prompt: "What wonderful things happened today?",
-    // pixabayQuery removed
   },
   ACCOMPLISHED: {
     id: "accomplished",
@@ -15,7 +14,6 @@ export const MOODS = {
     score: 9,
     color: "amber",
     prompt: "What have you achieved?",
-    // pixabayQuery removed
   },
   INSPIRED: {
     id: "inspired",
@@ -24,7 +22,6 @@ export const MOODS = {
     score: 9,
     color: "violet",
     prompt: "What's sparking your creativity?",
-    // pixabayQuery removed
   },
   PROUD: {
     id: "proud",

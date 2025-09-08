@@ -5,6 +5,10 @@ description = "FastAPI backend for Atmanaut journaling app"
 authors = ["Atmanaut"]
 readme = "README.md"
 
+packages = [
+    {include = "app"}
+]
+
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.116.1"

@@ -48,7 +48,6 @@ const features = [
 
 export default function LandingPage() {
   const [advice, setAdvice] = useState(null);
-  const [loadingAdvice, setLoadingAdvice] = useState(true);
 
   useEffect(() => {
     const fetchAdvice = async () => {
@@ -57,11 +56,8 @@ export default function LandingPage() {
         setAdvice(dailyPrompt.data || dailyPrompt); // Extract data field or use the response directly
       } catch (error) {
         console.error("Error fetching daily prompt:", error);
-      } finally {
-        setLoadingAdvice(false);
       }
     };
-
     fetchAdvice();
   }, []);
 
@@ -70,6 +66,10 @@ export default function LandingPage() {
       suppressHydrationWarning
       className="relative container mx-auto px-4 pt-16 pb-16"
     >
+      {/* Dynamic Particle Animation Background */}
+      <div className="absolute inset-0 -z-10 w-full h-full">
+        <div id="zen-particles" className="w-full h-full" />
+      </div>
       {/* Hero Section */}
       <div className="max-w-5xl mx-auto text-center space-y-8">
         <h1 className="text-5xl md:text-7xl lg:text-8xl gradient-title mb-6 animate-zen-fade-in">
@@ -105,21 +105,13 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        <div className="flex justify-center gap-4">
-          <Link href="/dashboard">
+        <div className="flex justify-center">
+          <Link href="/journal/write">
             <Button
               variant="journal"
-              className="px-8 py-6 rounded-full flex items-center gap-2 apple-hover-button"
+              className="px-8 py-6 rounded-full flex items-center gap-2 apple-hover-button text-lg shadow-glow"
             >
               Start Writing <ChevronRight className="h-5 w-5" />
-            </Button>
-          </Link>
-          <Link href="#features">
-            <Button
-              variant="outline"
-              className="px-8 py-6 rounded-full border-atmanaut-cream/60 text-atmanaut-dark hover:bg-atmanaut-yellow/20 hover:text-atmanaut-dark hover:border-atmanaut-yellow/60 apple-hover-button transition-all duration-300"
-            >
-              Learn More
             </Button>
           </Link>
         </div>
@@ -266,13 +258,15 @@ export default function LandingPage() {
               Join thousands of writers who have already discovered the power of
               digital journaling.
             </p>
-            <Button
-              size="lg"
-              variant="journal"
-              className="animate-bounce-slow apple-hover-button"
-            >
-              Get Started for Free <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href="/journal/write">
+              <Button
+                size="lg"
+                variant="journal"
+                className="animate-bounce-slow apple-hover-button text-lg shadow-glow"
+              >
+                Get Started for Free <ChevronRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </CardContent>
         </Card>
       </div>

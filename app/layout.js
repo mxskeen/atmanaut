@@ -15,22 +15,23 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider dynamic
-    // appearance={{
-    //   baseTheme: shadesOfPurple,
-    //   variables: {
-    //     colorPrimary: "#3b82f6",
-    //     colorBackground: "#1a202c",
-    //     colorInputBackground: "#2D3748",
-    //     colorInputText: "#F3F4F6",
-    //   },
-    //   elements: {
-    //     formButtonPrimary: "bg-purple-600 hover:bg-purple-700 text-white",
-    //     card: "bg-gray-800",
-    //     headerTitle: "text-blue-400",
-    //     headerSubtitle: "text-gray-400",
-    //   },
-    // }}
+    <ClerkProvider
+      dynamic
+      // appearance={{
+      //   baseTheme: shadesOfPurple,
+      //   variables: {
+      //     colorPrimary: "#3b82f6",
+      //     colorBackground: "#1a202c",
+      //     colorInputBackground: "#2D3748",
+      //     colorInputText: "#F3F4F6",
+      //   },
+      //   elements: {
+      //     formButtonPrimary: "bg-purple-600 hover:bg-purple-700 text-white",
+      //     card: "bg-gray-800",
+      //     headerTitle: "text-blue-400",
+      //     headerSubtitle: "text-gray-400",
+      //   },
+      // }}
     >
       <html lang="en">
         <body
@@ -41,7 +42,7 @@ export default function RootLayout({ children }) {
           <Header />
           <main
             suppressHydrationWarning={true}
-            className="min-h-screen pt-14 relative z-10"
+            className="min-h-screen pt-20 md:pt-24 relative z-10"
           >
             {children}
           </main>

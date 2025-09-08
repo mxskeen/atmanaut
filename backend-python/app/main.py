@@ -23,7 +23,7 @@ app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Specific origins for development
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:3002"],  # Added frontend port 3002
     allow_credentials=True,  # Allow credentials (auth headers)
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -47,13 +47,6 @@ async def root():
     }
 
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy", "service": "atmanaut-backend"}
-
-
-# Health check endpoint
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""

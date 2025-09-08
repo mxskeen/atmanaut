@@ -13,9 +13,8 @@ class Settings(BaseSettings):
     # Clerk Authentication
     clerk_secret_key: str = Field(..., env="CLERK_SECRET_KEY")
     clerk_publishable_key: str = Field(..., env="CLERK_PUBLISHABLE_KEY")
-    
-    
-    # CORS
+
+
     allowed_origins: list[str] = Field(
         default=["http://localhost:3000", "http://127.0.0.1:3000"],
         env="ALLOWED_ORIGINS"
