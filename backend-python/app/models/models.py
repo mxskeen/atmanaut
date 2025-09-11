@@ -39,9 +39,14 @@ CREATE TABLE entries (
     mood_image_url TEXT,
     collection_id TEXT REFERENCES collections(id) ON DELETE CASCADE,
     user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    content_embedding VECTOR(384),  -- For semantic search using sentence-transformers
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Index for semantic search
+CREATE INDEX IF NOT EXISTS entries_content_embedding_idx 
+ON entries USING hnsw (content_embedding vector_cosine_ops);
 """
 
 DRAFTS_TABLE_SCHEMA = """

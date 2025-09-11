@@ -142,8 +142,41 @@ class CollectionService(SupabaseService):
 class EntryService(SupabaseService):
     """Service for journal entry operations"""
     
-    def create_entry(self, user_id: str, entry_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Create a new journal entry"""
+    async def create_entry(self, user_id: str, entry_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new journal entry with embedding generation"""
+        try:
+            data = {
+                "id": self.generate_id(),
+                "user_id": user_id,
+                "title": entry_data["title"],
+                "content": entry_data["content"],
+                "mood": entry_data["mood"],
+                "mood_score": entry_data["mood_score"],
+                "mood_image_url": entry_data.get("mood_image_url"),
+                "collection_id": entry_data.get("collection_id"),
+                "created_at": datetime.now().isoformat(),
+                "updated_at": datetime.now().isoformat()
+            }
+            
+            # Generate embedding for the entry content
+            try:
+                from app.services.embedding_service import embedding_service
+                full_content = f"{entry_data['title']} {entry_data['content']}"
+                embedding = await embedding_service.generate_embedding(full_content)
+                if embedding:
+                    data["content_embedding"] = embedding
+            except Exception as e:
+                print(f"Warning: Failed to generate embedding: {e}")
+                # Continue without embedding - can be generated later
+            
+            result = self.supabase.table("entries").insert(data).execute()
+            return result.data[0] if result.data else None
+        except Exception as e:
+            print(f"Error creating entry: {e}")
+            raise Exception(f"Failed to create entry: {str(e)}")
+    
+    def create_entry_sync(self, user_id: str, entry_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Synchronous version of create_entry for backward compatibility"""
         try:
             data = {
                 "id": self.generate_id(),
@@ -194,8 +227,36 @@ class EntryService(SupabaseService):
             print(f"Error getting entry: {e}")
             return None
     
-    def update_entry(self, entry_id: str, user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
-        """Update a journal entry"""
+    async def update_entry(self, entry_id: str, user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update a journal entry and regenerate embedding if content changed"""
+        try:
+            update_data["updated_at"] = datetime.now().isoformat()
+            
+            # If content or title changed, regenerate embedding
+            if "content" in update_data or "title" in update_data:
+                try:
+                    # Get current entry to build full content
+                    current_entry = self.get_entry(entry_id, user_id)
+                    if current_entry:
+                        new_title = update_data.get("title", current_entry.get("title", ""))
+                        new_content = update_data.get("content", current_entry.get("content", ""))
+                        full_content = f"{new_title} {new_content}"
+                        
+                        from app.services.embedding_service import embedding_service
+                        embedding = await embedding_service.generate_embedding(full_content)
+                        if embedding:
+                            update_data["content_embedding"] = embedding
+                except Exception as e:
+                    print(f"Warning: Failed to update embedding: {e}")
+            
+            result = self.supabase.table("entries").update(update_data).eq("id", entry_id).eq("user_id", user_id).execute()
+            return result.data[0] if result.data else None
+        except Exception as e:
+            print(f"Error updating entry: {e}")
+            raise Exception(f"Failed to update entry: {str(e)}")
+    
+    def update_entry_sync(self, entry_id: str, user_id: str, update_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Synchronous version of update_entry for backward compatibility"""
         try:
             update_data["updated_at"] = datetime.now().isoformat()
             

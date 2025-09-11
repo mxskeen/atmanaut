@@ -16,6 +16,9 @@ python-multipart = "^0.0.20"
 slowapi = "^0.1.9"
 supabase = "^2.18.1"
 pyjwt = {extras = ["crypto"], version = "^2.10.1"}
+openai = "^1.51.0"
+numpy = "^2.1.1"
+sentence-transformers = "^3.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

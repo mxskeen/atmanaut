@@ -163,5 +163,41 @@ class StandardResponse(BaseModel):
     error: Optional[str] = None
 
 
+# Search schemas
+class SemanticSearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=1000, description="Search query")
+    limit: Optional[int] = Field(10, ge=1, le=50, description="Maximum number of results")
+    similarity_threshold: Optional[float] = Field(0.1, ge=0.0, le=1.0, description="Minimum similarity score")
+    mood_filter: Optional[str] = Field(None, description="Filter by mood")
+    collection_id: Optional[str] = Field(None, description="Filter by collection")
+    start_date: Optional[str] = Field(None, description="Start date filter (ISO format)")
+    end_date: Optional[str] = Field(None, description="End date filter (ISO format)")
+
+
+class HybridSearchRequest(SemanticSearchRequest):
+    semantic_weight: Optional[float] = Field(0.7, ge=0.0, le=1.0, description="Weight for semantic similarity")
+    keyword_weight: Optional[float] = Field(0.3, ge=0.0, le=1.0, description="Weight for keyword matching")
+
+
+class SearchResultEntry(Entry):
+    similarity_score: Optional[float] = Field(None, description="Semantic similarity score")
+    keyword_score: Optional[float] = Field(None, description="Keyword matching score")
+    combined_score: Optional[float] = Field(None, description="Combined hybrid score")
+
+
+class SearchResponse(BaseModel):
+    success: bool
+    query: str
+    total_results: int
+    results: List[SearchResultEntry]
+    search_type: str  # "semantic", "hybrid", or "keyword"
+
+
+class EmbeddingUpdateResponse(BaseModel):
+    success: bool
+    entries_updated: int
+    message: Optional[str] = None
+
+
 # Update forward references
 CollectionWithEntries.model_rebuild()
