@@ -17,6 +17,13 @@ class Settings(BaseSettings):
     # External APIs
     pixabay_api_key: str = Field(..., env="PIXABAY_API_KEY")
     
+    # OpenAI (optional, for embeddings)
+    openai_api_key: Optional[str] = Field(default=None, env="OPENAI_API_KEY")
+    
+    # Embedding settings
+    embedding_model: str = Field(default="sentence-transformers", env="EMBEDDING_MODEL")  # "sentence-transformers" or "openai"
+    embedding_dimensions: int = Field(default=384, env="EMBEDDING_DIMENSIONS")  # 384 for sentence-transformers, 1536 for OpenAI
+    
     # CORS
     allowed_origins: list[str] = Field(
         default=["http://localhost:3000", "http://127.0.0.1:3000"],

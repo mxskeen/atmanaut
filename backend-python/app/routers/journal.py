@@ -66,7 +66,12 @@ async def create_journal_entry(
             "collection_id": collection_id
         }
 
-        entry = entry_service.create_entry(user["id"], entry_data_dict)
+        # Use async method to create entry with embedding generation
+        try:
+            entry = await entry_service.create_entry(user["id"], entry_data_dict)
+        except Exception as e:
+            print(f"Failed to create entry with embedding, falling back to sync method: {e}")
+            entry = entry_service.create_entry_sync(user["id"], entry_data_dict)
         
         # Delete existing draft after successful publication
         draft_service = DraftService()
@@ -318,7 +323,11 @@ async def update_journal_entry(
             update_data["collection_id"] = update_data.pop("collectionId")
 
         # Update the entry
-        updated_entry = entry_service.update_entry(entry_id, user["id"], update_data)
+        try:
+            updated_entry = await entry_service.update_entry(entry_id, user["id"], update_data)
+        except Exception as e:
+            print(f"Failed to update entry with embedding, falling back to sync method: {e}")
+            updated_entry = entry_service.update_entry_sync(entry_id, user["id"], update_data)
 
         return updated_entry
 
