@@ -1,0 +1,33 @@
+name: Generate Embeddings
+
+on:
+  schedule:
+    - cron: '0 0 */3 * *' # Runs every 3 days
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  generate-embeddings:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install poetry
+        cd backend-python
+        poetry install
+
+    - name: Run embedding generation script
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # Add other necessary environment variables here
+      run: |
+        cd backend-python
+        poetry run python -m scripts.generate_embeddings
