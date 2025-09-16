@@ -10,6 +10,7 @@ python = "^3.11"
 fastapi = "^0.116.1"
 uvicorn = "^0.35.0"
 pydantic-settings = "^2.10.1"
+python-dotenv = "^1.0.1"
 httpx = "^0.28.1"
 python-jose = {extras = ["cryptography"], version = "^3.5.0"}
 python-multipart = "^0.0.20"
