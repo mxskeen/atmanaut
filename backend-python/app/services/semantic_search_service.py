@@ -79,14 +79,13 @@ class SemanticSearchService(SupabaseService):
             # Calculate similarities and filter
             scored_entries = []
             for entry in entries:
-                if entry.get('content_embedding'):
+                emb = entry.get('content_embedding')
+                if emb and isinstance(emb, list) and len(emb) > 0:
                     similarity = self.embedding_service.compute_similarity(
-                        query_embedding, 
-                        entry['content_embedding']
+                        query_embedding, emb
                     )
-                    
                     if similarity >= similarity_threshold:
-                        entry['similarity_score'] = similarity
+                        entry['similarity_score'] = float(similarity)
                         scored_entries.append(entry)
             
             # Sort by similarity score (descending)

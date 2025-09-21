@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -21,41 +21,80 @@ import { Calendar as CalendarIcon, Search } from "lucide-react";
 import { cn } from "@/shared/utils";
 import { MOODS } from "@/shared/moods";
 import EntryCard from "@/components/entry-card";
+import { useApiClient } from "@/lib/api-client";
 
 export function JournalFilters({ entries }) {
+  const apiClient = useApiClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedMood, setSelectedMood] = useState("");
   const [date, setDate] = useState(null);
   const [filteredEntries, setFilteredEntries] = useState(entries);
+  const [semanticResults, setSemanticResults] = useState(null);
+  const [semanticLoading, setSemanticLoading] = useState(false);
 
-  // Apply filters whenever filter values or entries change
+  // Debounced semantic search
   useEffect(() => {
-    let filtered = entries;
+    const doSearch = async () => {
+      if (!searchQuery || searchQuery.trim().length < 2) {
+        setSemanticResults(null);
+        return;
+      }
+      try {
+        setSemanticLoading(true);
+        const res = await apiClient.semanticSearch({
+          query: searchQuery,
+          limit: 50,
+          similarity_threshold: 0.2,
+        });
+        const results = res.results || res.data?.results || [];
+        setSemanticResults(results);
+      } catch (e) {
+        console.error("Semantic search failed", e);
+        setSemanticResults(null);
+      } finally {
+        setSemanticLoading(false);
+      }
+    };
+    const t = setTimeout(doSearch, 300);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
 
-    // Apply search filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
+  // Apply filters and merge semantic results
+  useEffect(() => {
+    let base = entries;
+    // If semantic results exist, prefer them (already filtered by similarity)
+    if (semanticResults && semanticResults.length > 0) {
+      const ids = new Set(semanticResults.map((r) => r.id));
+      base = entries.filter((e) => ids.has(e.id));
+      // Sort by semantic similarity if provided
+      const scoreOf = (id) => {
+        const r = semanticResults.find((x) => x.id === id);
+        return r?.similarity_score ?? r?.combined_score ?? 0;
+      };
+      base.sort((a, b) => scoreOf(b.id) - scoreOf(a.id));
+    } else if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      base = base.filter(
         (entry) =>
-          entry.title.toLowerCase().includes(query) ||
-          entry.content.toLowerCase().includes(query)
+          entry.title.toLowerCase().includes(q) ||
+          entry.content.toLowerCase().includes(q)
       );
     }
 
     // Apply mood filter
     if (selectedMood) {
-      filtered = filtered.filter((entry) => entry.mood === selectedMood);
+      base = base.filter((entry) => entry.mood === selectedMood);
     }
 
     // Apply date filter
     if (date) {
-      filtered = filtered.filter((entry) =>
+      base = base.filter((entry) =>
         isSameDay(new Date(entry.createdAt), date)
       );
     }
 
-    setFilteredEntries(filtered);
-  }, [entries, searchQuery, selectedMood, date]);
+    setFilteredEntries(base);
+  }, [entries, searchQuery, selectedMood, date, semanticResults]);
 
   const clearFilters = () => {
     setSearchQuery("");
@@ -128,7 +167,7 @@ export function JournalFilters({ entries }) {
 
       {/* Results Summary */}
       <div className="text-sm text-gray-500">
-        Showing {filteredEntries.length} of {entries.length} entries
+        {semanticLoading ? "Searching..." : `Showing ${filteredEntries.length} of ${entries.length} entries`}
       </div>
 
       {/* Entries List */}

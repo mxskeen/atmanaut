@@ -7,6 +7,7 @@ from slowapi.errors import RateLimitExceeded
 from app.core.config import settings
 from app.middleware.rate_limit import limiter, rate_limit_handler
 from app.routers import analytics, collections, journal, public
+from app.routers import search
 
 # Create FastAPI application
 app = FastAPI(
@@ -34,6 +35,7 @@ app.include_router(analytics.router)
 app.include_router(collections.router)
 app.include_router(journal.router)
 app.include_router(public.router)
+app.include_router(search.router)
 
 
 # Root endpoint

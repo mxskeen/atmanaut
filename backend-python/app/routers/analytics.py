@@ -70,7 +70,56 @@ async def get_analytics(
                 print(f"Skipping entry with invalid date: {entry.get('created_at')}, error: {e}")
                 continue
 
-        # Process entries for analytics
+        # Build date -> entries count map for streaks and timeline
+        date_counts: Dict[str, int] = {}
+        for entry in all_entries:
+            try:
+                created_at = entry["created_at"]
+                if isinstance(created_at, str):
+                    created_at_clean = created_at.replace('Z', '+00:00')
+                    entry_date = datetime.fromisoformat(created_at_clean)
+                else:
+                    entry_date = created_at
+                key = entry_date.strftime("%Y-%m-%d")
+                date_counts[key] = date_counts.get(key, 0) + 1
+            except Exception:
+                continue
+
+        # Compute streaks (current and longest)
+        def compute_streaks() -> Dict[str, int]:
+            today = datetime.now().date()
+            longest = 0
+            current = 0
+            running = 0
+            # Walk back 365 days
+            for i in range(0, 366):
+                d = (today - timedelta(days=i)).strftime("%Y-%m-%d")
+                if date_counts.get(d, 0) > 0:
+                    running += 1
+                else:
+                    if i == 0:
+                        current = 0
+                    elif current == 0:
+                        current = running
+                    longest = max(longest, running)
+                    running = 0
+            longest = max(longest, running)
+            if current == 0:
+                # if no break encountered at the start, current is running
+                current = running
+            return {"current": int(current), "longest": int(longest)}
+
+        streak_stats = compute_streaks()
+
+        # Prepare heatmap for last 52 weeks
+        heatmap = []
+        today = datetime.now().date()
+        for i in range(0, 7 * 52):
+            d = (today - timedelta(days=(7 * 52 - 1 - i)))
+            key = d.strftime("%Y-%m-%d")
+            heatmap.append({"date": key, "count": date_counts.get(key, 0)})
+
+        # Filter entries for selected period and compute analytics
         mood_data = {}
         for entry in entries:
             try:
@@ -148,7 +197,12 @@ async def get_analytics(
                         **entry,
                         "mood_data": get_mood_by_id(entry.get("mood")) if entry.get("mood") else None
                     } for entry in entries
-                ]
+                ],
+                "streak": {
+                    "current": streak_stats["current"],
+                    "longest": streak_stats["longest"],
+                    "heatmap": heatmap
+                }
             }
         )
 
