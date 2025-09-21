@@ -31,42 +31,24 @@ const Collections = ({ collections = [], entriesByCollection }) => {
     createCollectionFn(data);
   };
 
-  if (collections.length === 0) return <></>;
+  // Always show the two folders (Organized / Unorganized)
 
   return (
     <section id="collections" className="space-y-6">
       <h2 className="text-3xl font-bold gradient-title">Collections</h2>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {/* Create New Collection Button */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {/* Organized folder aggregates all collections */}
         <CollectionPreview
-          isCreateNew={true}
-          onCreateNew={() => setIsCollectionDialogOpen(true)}
+          id="organized"
+          name="Organized"
+          entries={collections.flatMap((c) => entriesByCollection[c.id] || [])}
         />
 
-        {/* Unorganized Collection */}
-        {entriesByCollection?.unorganized?.length > 0 && (
-          <CollectionPreview
-            name="Unorganized"
-            entries={entriesByCollection.unorganized}
-            isUnorganized={true}
-          />
-        )}
-
-        {/* User Collections */}
-        {collections?.map((collection) => (
-          <CollectionPreview
-            key={collection.id}
-            id={collection.id}
-            name={collection.name}
-            entries={entriesByCollection[collection.id] || []}
-          />
-        ))}
-
-        <CollectionForm
-          loading={createCollectionLoading}
-          onSuccess={handleCreateCollection}
-          open={isCollectionDialogOpen}
-          setOpen={setIsCollectionDialogOpen}
+        {/* Unorganized folder always visible */}
+        <CollectionPreview
+          name="Unorganized"
+          entries={entriesByCollection?.unorganized || []}
+          isUnorganized={true}
         />
       </div>
     </section>
