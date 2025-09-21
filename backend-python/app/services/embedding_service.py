@@ -14,13 +14,12 @@ class EmbeddingService:
         self._executor = ThreadPoolExecutor(max_workers=2)
         
     def _get_sentence_transformer_model(self):
-        """Lazy load sentence transformer model"""
+        """Lazy load sentence transformer model (384-dims to match DB)."""
         if self._model is None:
-            # Check for CUDA availability
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
             print(f"Using device: {device} for embedding generation.")
-            # Using a lightweight multilingual model good for semantic search
-            self._model = SentenceTransformer('all-mpnet-base-v2', device=device)
+            # all-MiniLM-L6-v2 outputs 384-dim embeddings, matching VECTOR(384)
+            self._model = SentenceTransformer('all-MiniLM-L6-v2', device=device)
         return self._model
     
     async def generate_embedding(self, text: str) -> List[float]:
@@ -77,54 +76,15 @@ class EmbeddingService:
         try:
             loop = asyncio.get_event_loop()
             model = self._get_sentence_transformer_model()
-            
-            # Run in thread pool to avoid blocking
             embeddings = await loop.run_in_executor(
                 self._executor,
                 model.encode,
                 texts
             )
-            
+            # sentence-transformers returns numpy array when batching
             return embeddings.tolist()
-            
         except Exception as e:
             print(f"Error generating sentence transformer embeddings batch: {e}")
-            return []
-        try:
-            openai_api_key = os.getenv("OPENAI_API_KEY")
-            if not openai_api_key:
-                raise ValueError("OPENAI_API_KEY not found in environment variables")
-                
-            client = openai.OpenAI(api_key=openai_api_key)
-            response = client.embeddings.create(
-                model="text-embedding-3-small",
-                input=texts
-            )
-            
-            return [item.embedding for item in response.data]
-            
-        except Exception as e:
-            print(f"Error generating OpenAI batch embeddings: {e}")
-            # Fallback to sentence transformer
-            return await self._generate_sentence_transformer_embeddings_batch(texts)
-    
-    async def _generate_sentence_transformer_embeddings_batch(self, texts: List[str]) -> List[List[float]]:
-        """Generate embeddings for batch using sentence transformers"""
-        try:
-            loop = asyncio.get_event_loop()
-            model = self._get_sentence_transformer_model()
-            
-            # Run in thread pool to avoid blocking
-            embeddings = await loop.run_in_executor(
-                self._executor,
-                model.encode,
-                texts
-            )
-            
-            return [emb.tolist() for emb in embeddings]
-            
-        except Exception as e:
-            print(f"Error generating sentence transformer batch embeddings: {e}")
             return []
     
     def compute_similarity(self, embedding1: List[float], embedding2: List[float]) -> float:
