@@ -14,11 +14,11 @@ function Header() {
       <nav className="py-6 px-4 flex justify-between items-center">
         <Link href="/">
           <Image
-            src={"/logo (1).jpg"}
+            src={"/atmanaut.png"}
             alt="atmanaut Logo"
-            width={200}
-            height={60}
-            className="h-10 w-auto object-contain"
+            width={240}
+            height={80}
+            className="w-40 md:w-48 h-auto object-contain"
           />
         </Link>
         <div className="flex items-center gap-4">
