@@ -5,16 +5,7 @@ import path from 'path';
 const nextConfig = {
   // Custom paths for our new structure
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "pixabay.com",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.pixabay.com",
-      },
-    ],
+    remotePatterns: [],
   },
   // Configure webpack for custom directories
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

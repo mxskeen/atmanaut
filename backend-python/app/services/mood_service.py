@@ -10,7 +10,7 @@ MOODS = {
         "score": 10,
         "color": "yellow",
         "prompt": "What wonderful things happened today?",
-        "pixabay_query": "joyful+celebration+happy",
+        # pixabay_query removed
     },
     "ACCOMPLISHED": {
         "id": "accomplished",
@@ -19,7 +19,7 @@ MOODS = {
         "score": 9,
         "color": "amber",
         "prompt": "What have you achieved?",
-        "pixabay_query": "achievement+success+star",
+        
     },
     "INSPIRED": {
         "id": "inspired",
@@ -28,7 +28,7 @@ MOODS = {
         "score": 9,
         "color": "violet",
         "prompt": "What's sparking your creativity?",
-        "pixabay_query": "inspiration+creative+light",
+        
     },
     "PROUD": {
         "id": "proud",
@@ -37,7 +37,7 @@ MOODS = {
         "score": 9,
         "color": "amber",
         "prompt": "What achievement are you proud of?",
-        "pixabay_query": "achievement+success+proud",
+        
     },
     "LOVED": {
         "id": "loved",
@@ -46,7 +46,7 @@ MOODS = {
         "score": 9,
         "color": "pink",
         "prompt": "Who or what is making you feel loved?",
-        "pixabay_query": "love+heart+affection",
+        
     },
     "APPRECIATED": {
         "id": "appreciated",
@@ -55,7 +55,7 @@ MOODS = {
         "score": 8,
         "color": "pink",
         "prompt": "How do you feel appreciated today?",
-        "pixabay_query": "gratitude+appreciation+thanks",
+        
     },
     "HAPPY": {
         "id": "happy",
@@ -64,7 +64,7 @@ MOODS = {
         "score": 8,
         "color": "yellow",
         "prompt": "What's bringing you joy?",
-        "pixabay_query": "happiness+smile+joy",
+        
     },
     "CONTENT": {
         "id": "content",
@@ -73,7 +73,7 @@ MOODS = {
         "score": 7,
         "color": "green",
         "prompt": "What's giving you peace today?",
-        "pixabay_query": "peaceful+content+calm",
+        
     },
     "HOPEFUL": {
         "id": "hopeful",
@@ -82,7 +82,7 @@ MOODS = {
         "score": 7,
         "color": "orange",
         "prompt": "What are you looking forward to?",
-        "pixabay_query": "hope+sunrise+future",
+        
     },
     "GRATEFUL": {
         "id": "grateful",
@@ -91,7 +91,7 @@ MOODS = {
         "score": 8,
         "color": "amber",
         "prompt": "What are you thankful for?",
-        "pixabay_query": "gratitude+thankful+blessing",
+        
     },
     "EXCITED": {
         "id": "excited",
@@ -100,7 +100,7 @@ MOODS = {
         "score": 8,
         "color": "yellow",
         "prompt": "What's got you excited?",
-        "pixabay_query": "excitement+celebration+energy",
+        
     },
     "RELAXED": {
         "id": "relaxed",
@@ -109,7 +109,7 @@ MOODS = {
         "score": 7,
         "color": "blue",
         "prompt": "How are you finding peace?",
-        "pixabay_query": "relaxation+meditation+calm",
+        
     },
     "OPTIMISTIC": {
         "id": "optimistic",
@@ -118,7 +118,7 @@ MOODS = {
         "score": 7,
         "color": "violet",
         "prompt": "What's looking bright?",
-        "pixabay_query": "optimism+rainbow+positive",
+        
     },
     "NEUTRAL": {
         "id": "neutral",
@@ -127,7 +127,7 @@ MOODS = {
         "score": 5,
         "color": "gray",
         "prompt": "How was your day overall?",
-        "pixabay_query": "neutral+balance+calm",
+        
     },
     "TIRED": {
         "id": "tired",
@@ -136,7 +136,7 @@ MOODS = {
         "score": 4,
         "color": "blue",
         "prompt": "What's been draining your energy?",
-        "pixabay_query": "tired+exhausted+rest",
+        
     },
     "STRESSED": {
         "id": "stressed",
@@ -145,7 +145,7 @@ MOODS = {
         "score": 3,
         "color": "red",
         "prompt": "What's causing you stress?",
-        "pixabay_query": "stress+pressure+overwhelmed",
+        
     },
     "ANXIOUS": {
         "id": "anxious",
@@ -154,7 +154,7 @@ MOODS = {
         "score": 3,
         "color": "yellow",
         "prompt": "What's making you feel anxious?",
-        "pixabay_query": "anxiety+worry+concern",
+        
     },
     "FRUSTRATED": {
         "id": "frustrated",
@@ -163,7 +163,7 @@ MOODS = {
         "score": 3,
         "color": "orange",
         "prompt": "What's frustrating you?",
-        "pixabay_query": "frustration+anger+irritated",
+        
     },
     "SAD": {
         "id": "sad",
@@ -172,7 +172,7 @@ MOODS = {
         "score": 2,
         "color": "blue",
         "prompt": "What's weighing on your heart?",
-        "pixabay_query": "sadness+melancholy+blue",
+        
     },
     "LONELY": {
         "id": "lonely",
@@ -181,7 +181,7 @@ MOODS = {
         "score": 2,
         "color": "gray",
         "prompt": "Tell me about feeling alone.",
-        "pixabay_query": "loneliness+solitude+alone",
+        
     },
     "OVERWHELMED": {
         "id": "overwhelmed",
@@ -190,7 +190,7 @@ MOODS = {
         "score": 2,
         "color": "red",
         "prompt": "What feels like too much right now?",
-        "pixabay_query": "overwhelmed+chaos+too+much",
+        
     },
     "ANGRY": {
         "id": "angry",
@@ -199,7 +199,7 @@ MOODS = {
         "score": 2,
         "color": "red",
         "prompt": "What triggered your anger?",
-        "pixabay_query": "anger+rage+fury",
+        
     },
     "DISAPPOINTED": {
         "id": "disappointed",
@@ -208,7 +208,7 @@ MOODS = {
         "score": 3,
         "color": "gray",
         "prompt": "What didn't go as expected?",
-        "pixabay_query": "disappointment+letdown+unmet",
+        
     },
     "CONFUSED": {
         "id": "confused",
@@ -217,7 +217,7 @@ MOODS = {
         "score": 4,
         "color": "purple",
         "prompt": "What's unclear to you right now?",
-        "pixabay_query": "confusion+uncertain+unclear",
+        
     },
     "BORED": {
         "id": "bored",
@@ -226,7 +226,7 @@ MOODS = {
         "score": 4,
         "color": "gray",
         "prompt": "What would make things more interesting?",
-        "pixabay_query": "boredom+dull+uninteresting",
+        
     },
     "WORRIED": {
         "id": "worried",
@@ -235,7 +235,7 @@ MOODS = {
         "score": 3,
         "color": "yellow",
         "prompt": "What concerns are on your mind?",
-        "pixabay_query": "worry+concern+fear",
+        
     },
     "JEALOUS": {
         "id": "jealous",
@@ -244,7 +244,7 @@ MOODS = {
         "score": 3,
         "color": "green",
         "prompt": "What's triggering these feelings?",
-        "pixabay_query": "jealousy+envy+comparison",
+        
     },
     "GUILTY": {
         "id": "guilty",
@@ -253,7 +253,7 @@ MOODS = {
         "score": 3,
         "color": "red",
         "prompt": "What's causing you to feel guilty?",
-        "pixabay_query": "guilt+regret+shame",
+        
     },
     "EMBARRASSED": {
         "id": "embarrassed",
@@ -262,7 +262,7 @@ MOODS = {
         "score": 3,
         "color": "pink",
         "prompt": "What made you feel embarrassed?",
-        "pixabay_query": "embarrassment+shame+awkward",
+        
     },
     "NOSTALGIC": {
         "id": "nostalgic",
@@ -271,7 +271,7 @@ MOODS = {
         "score": 6,
         "color": "purple",
         "prompt": "What memories are you reflecting on?",
-        "pixabay_query": "nostalgia+memories+past",
+        
     },
     "SURPRISED": {
         "id": "surprised",
@@ -280,7 +280,7 @@ MOODS = {
         "score": 6,
         "color": "yellow",
         "prompt": "What caught you off guard?",
-        "pixabay_query": "surprise+unexpected+shock",
+        
     },
     "CURIOUS": {
         "id": "curious",
@@ -289,7 +289,7 @@ MOODS = {
         "score": 6,
         "color": "blue",
         "prompt": "What's piquing your interest?",
-        "pixabay_query": "curiosity+wonder+question",
+        
     },
     "DETERMINED": {
         "id": "determined",
@@ -298,7 +298,7 @@ MOODS = {
         "score": 8,
         "color": "orange",
         "prompt": "What are you working towards?",
-        "pixabay_query": "determination+strength+focus",
+        
     },
     "CONFIDENT": {
         "id": "confident",
@@ -307,7 +307,7 @@ MOODS = {
         "score": 8,
         "color": "blue",
         "prompt": "What's boosting your confidence?",
-        "pixabay_query": "confidence+self+assured+strong",
+        
     },
     "PLAYFUL": {
         "id": "playful",
@@ -316,7 +316,7 @@ MOODS = {
         "score": 7,
         "color": "pink",
         "prompt": "What's bringing out your playful side?",
-        "pixabay_query": "playful+fun+lighthearted",
+        
     },
     "CREATIVE": {
         "id": "creative",
@@ -325,7 +325,7 @@ MOODS = {
         "score": 7,
         "color": "purple",
         "prompt": "What's inspiring your creativity?",
-        "pixabay_query": "creativity+art+imagination",
+        
     },
     "FOCUSED": {
         "id": "focused",
@@ -334,7 +334,7 @@ MOODS = {
         "score": 7,
         "color": "green",
         "prompt": "What has your complete attention?",
-        "pixabay_query": "focus+concentration+target",
+        
     },
     "PEACEFUL": {
         "id": "peaceful",
@@ -343,7 +343,7 @@ MOODS = {
         "score": 7,
         "color": "green",
         "prompt": "What's bringing you inner peace?",
-        "pixabay_query": "peace+serenity+tranquil",
+        
     },
     "ENERGETIC": {
         "id": "energetic",
@@ -352,7 +352,7 @@ MOODS = {
         "score": 8,
         "color": "yellow",
         "prompt": "What's fueling your energy?",
-        "pixabay_query": "energy+vibrant+dynamic",
+        
     },
     "MOTIVATED": {
         "id": "motivated",
@@ -361,7 +361,7 @@ MOODS = {
         "score": 8,
         "color": "orange",
         "prompt": "What's driving your motivation?",
-        "pixabay_query": "motivation+drive+ambition",
+        
     },
     "REFLECTIVE": {
         "id": "reflective",
@@ -370,7 +370,7 @@ MOODS = {
         "score": 6,
         "color": "blue",
         "prompt": "What are you contemplating?",
-        "pixabay_query": "reflection+contemplation+thoughtful",
+        
     },
     "MELANCHOLIC": {
         "id": "melancholic",
@@ -379,7 +379,7 @@ MOODS = {
         "score": 4,
         "color": "gray",
         "prompt": "What's creating this bittersweet feeling?",
-        "pixabay_query": "melancholy+bittersweet+pensive",
+        
     },
 }
 

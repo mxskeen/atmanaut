@@ -167,7 +167,7 @@ export default function JournalEntryPage() {
     actionFn({
       ...data,
       moodScore: mood.score,
-      moodQuery: mood.pixabayQuery,
+      // Pixabay removed; no remote image query
       ...(isEditMode && { id: editId }),
     });
   });

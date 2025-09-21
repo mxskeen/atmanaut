@@ -53,16 +53,6 @@ async def health_check():
     return {"status": "healthy", "service": "atmanaut-backend"}
 
 
-# Health check endpoint
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "service": "atmanaut-backend"
-    }
-
-
 # Global exception handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):

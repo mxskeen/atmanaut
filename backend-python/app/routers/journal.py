@@ -40,8 +40,8 @@ async def create_journal_entry(
                 detail="Invalid mood"
             )
 
-        # Get mood image from Pixabay
-        mood_image_url = await ExternalAPIService.get_pixabay_image(entry_data.moodQuery)
+        # Pixabay removed; do not fetch remote mood image
+        mood_image_url = None
 
         # Validate collection if provided
         collection_id = None
@@ -307,18 +307,13 @@ async def update_journal_entry(
                     detail="Invalid mood"
                 )
             
-            # Get new mood image if mood changed or moodQuery provided
-            if entry["mood"] != mood["id"] or entry_data.moodQuery:
-                mood_query = entry_data.moodQuery or mood["pixabay_query"]
-                mood_image_url = await ExternalAPIService.get_pixabay_image(mood_query)
-                update_data["mood_image_url"] = mood_image_url
+            # Mood image fetch removed; keep existing mood_image_url unchanged
             
             update_data["mood"] = mood["id"]
             update_data["mood_score"] = mood["score"]
         
         # Convert camelCase to snake_case for database
-        if "moodQuery" in update_data:
-            del update_data["moodQuery"]  # Remove as it's not a model field
+        # moodQuery no longer supported
         if "collectionId" in update_data:
             update_data["collection_id"] = update_data.pop("collectionId")
 
