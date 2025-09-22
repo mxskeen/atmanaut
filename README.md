@@ -16,6 +16,7 @@ Users:
 - Collection organization
 - Analytics & insights
 - Daily writing prompts
+- moody's dashboard
 
 System:
 - JWT authentication with Clerk
